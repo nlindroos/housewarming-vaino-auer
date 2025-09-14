@@ -147,9 +147,57 @@ export default function HomePage() {
               </span>
             </div>
             <p className="font-medium">00560 Helsinki</p>
-            <div className="flex items-center justify-center gap-2">
+            <div
+              className="flex items-center justify-center gap-2 cursor-pointer hover:text-foreground transition-colors"
+              onClick={() => {
+                // Create calendar event
+                const startDate = new Date(2024, 10, 8, 15, 0); // November 8, 2024, 15:00
+                const endDate = new Date(2024, 10, 9, 0, 0); // November 9, 2024, 00:00 (24:00)
+
+                const eventDetails = {
+                  title: "Housewarming Party",
+                  location: "Väinö Auers gata 15 B 21, 00560 Helsinki",
+                  details:
+                    "Come celebrate our new home! Family-friendly timing - arrive early with kids, stay late without them.",
+                  start:
+                    startDate.toISOString().replace(/[-:]/g, "").split(".")[0] +
+                    "Z",
+                  end:
+                    endDate.toISOString().replace(/[-:]/g, "").split(".")[0] +
+                    "Z",
+                };
+
+                // Create universal .ics file that works with any calendar app
+                const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Housewarming Party//EN
+BEGIN:VEVENT
+UID:housewarming-party-${Date.now()}@${window.location.hostname}
+DTSTART:${eventDetails.start}
+DTEND:${eventDetails.end}
+SUMMARY:${eventDetails.title}
+DESCRIPTION:${eventDetails.details}
+LOCATION:${eventDetails.location}
+URL:${window.location.href}
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+
+                // Create and download .ics file
+                const blob = new Blob([icsContent], {
+                  type: "text/calendar;charset=utf-8",
+                });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "housewarming-party.ics";
+                link.click();
+
+                // Clean up the blob URL
+                URL.revokeObjectURL(link.href);
+              }}
+            >
               <Calendar className="h-4 w-4" />
-              <span className="font-medium">
+              <span className="font-medium underline decoration-dotted">
                 Sat November 8 at 15:00 onwards
               </span>
             </div>
