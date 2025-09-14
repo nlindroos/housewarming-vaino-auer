@@ -5,13 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Minus,
@@ -117,17 +111,40 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 flex items-center justify-center p-4">
-      <Card className="max-w-md w-full shadow-2xl border-0">
+      <Card className="max-w-md w-full min-w-[340px] shadow-2xl border-0">
         <CardHeader className="text-center pb-4">
           <div className="flex justify-center items-center gap-2 mb-3">
             <Home className="h-8 w-8 text-pink-500" />
             <Sparkles className="h-8 w-8 text-purple-500" />
           </div>
-          <CardTitle className="text-2xl mb-3">Housewarming Party!</CardTitle>
+          <CardTitle className="text-2xl mb-2">Housewarming Party!</CardTitle>
+          <p className="text-lg text-muted-foreground mb-4">
+            ...and you&apos;re invited
+          </p>
           <div className="text-sm space-y-2 mb-4 text-muted-foreground">
-            <div className="flex items-center justify-center gap-2">
+            <div
+              className="flex items-center justify-center gap-2 cursor-pointer hover:text-foreground transition-colors"
+              onClick={() => {
+                const address = "Väinö Auers gata 15 B 21, 00560 Helsinki";
+                const encodedAddress = encodeURIComponent(address);
+
+                const isAppleDevice = /iPad|iPhone|iPod|Macintosh/.test(
+                  navigator.userAgent,
+                );
+
+                if (isAppleDevice) {
+                  const appleMapsUrl = `maps://maps.apple.com/?q=${encodedAddress}`;
+                  window.location.href = appleMapsUrl;
+                } else {
+                  const googleMapsUrl = `https://maps.google.com/maps?q=${encodedAddress}`;
+                  window.open(googleMapsUrl, "_blank");
+                }
+              }}
+            >
               <MapPin className="h-4 w-4" />
-              <span className="font-medium">Väinö Auers gata 15 B 21</span>
+              <span className="font-medium underline decoration-dotted">
+                Väinö Auers gata 15 B 21
+              </span>
             </div>
             <p className="font-medium">00560 Helsinki</p>
             <div className="flex items-center justify-center gap-2">
@@ -148,10 +165,6 @@ export default function HomePage() {
               the party with us!
             </AlertDescription>
           </Alert>
-
-          <CardDescription className="text-base">
-            We&apos;d love for you to come celebrate with us!
-          </CardDescription>
         </CardHeader>
 
         <CardContent>
@@ -311,17 +324,17 @@ export default function HomePage() {
         </CardContent>
 
         <div className="px-6 pb-6">
-          <div className="flex items-center justify-center gap-4 text-center text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <UserCheck className="h-3 w-3" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center text-sm text-muted-foreground">
+            <div className="flex flex-col sm:flex-row items-center gap-1">
+              <UserCheck className="h-4 w-4 sm:h-3 sm:w-3" />
               <span>Max 100 guests</span>
             </div>
-            <div className="flex items-center gap-1">
-              <UtensilsCrossed className="h-3 w-3" />
+            <div className="flex flex-col sm:flex-row items-center gap-1">
+              <UtensilsCrossed className="h-4 w-4 sm:h-3 sm:w-3" />
               <span>Snacks & drinks</span>
             </div>
-            <div className="flex items-center gap-1">
-              <Music className="h-3 w-3" />
+            <div className="flex flex-col sm:flex-row items-center gap-1">
+              <Music className="h-4 w-4 sm:h-3 sm:w-3" />
               <span>Music & fun!</span>
             </div>
           </div>
