@@ -60,7 +60,7 @@ export default function HomePage() {
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center animate-bounce">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center animate-bounce-twice">
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
             {formData.isAttending ? "YAY! You're Coming!" : "Sorry to hear"}
@@ -109,6 +109,7 @@ export default function HomePage() {
               <input
                 type="text"
                 required
+                maxLength={50}
                 value={formData.firstName}
                 onChange={(e) => handleInputChange("firstName", e.target.value)}
                 className="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors text-gray-900 placeholder:text-gray-500"
@@ -122,6 +123,7 @@ export default function HomePage() {
               <input
                 type="text"
                 required
+                maxLength={50}
                 value={formData.lastName}
                 onChange={(e) => handleInputChange("lastName", e.target.value)}
                 className="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors text-gray-900 placeholder:text-gray-500"
@@ -204,10 +206,14 @@ export default function HomePage() {
             <textarea
               value={formData.message}
               onChange={(e) => handleInputChange("message", e.target.value)}
+              maxLength={500}
               className="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:outline-none transition-colors resize-none text-gray-900 placeholder:text-gray-500"
               rows={3}
               placeholder="Tell us what you're excited about or any dietary restrictions..."
             />
+            <div className="text-right text-sm text-gray-500 mt-1">
+              {formData.message?.length ?? 0}/500 characters
+            </div>
           </div>
 
           <button

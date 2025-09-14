@@ -49,10 +49,33 @@ export async function POST(request: NextRequest) {
   try {
     const body: RSVPSubmission = await request.json();
 
-    // Basic validation
-    if (!body.firstName || !body.lastName) {
+    // Basic validation and sanitization
+    const firstName = body.firstName?.trim();
+    const lastName = body.lastName?.trim();
+    const message = body.message?.trim();
+
+    if (!firstName || !lastName) {
       return NextResponse.json(
         { error: "First name and last name are required" },
+        { status: 400 },
+      );
+    }
+
+    if (firstName.length > 50 || lastName.length > 50) {
+      return NextResponse.json(
+        { error: "First name and last name must be 50 characters or less" },
+        { status: 400 },
+      );
+    }
+
+    // Name format validation (letters including Nordic åäö and Spanish accented characters, spaces, hyphens, apostrophes)
+    const namePattern = /^[a-zA-ZåäöÅÄÖáéíóúüñÁÉÍÓÚÜÑ\s\-']+$/;
+    if (!namePattern.test(firstName) || !namePattern.test(lastName)) {
+      return NextResponse.json(
+        {
+          error:
+            "Names can only contain letters (including accented characters), spaces, hyphens, and apostrophes",
+        },
         { status: 400 },
       );
     }
@@ -61,6 +84,32 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Guest count must be between 1 and 10" },
         { status: 400 },
+      );
+    }
+
+    // Message length validation
+    if (message && message.length > 500) {
+      return NextResponse.json(
+        { error: "Message must be 500 characters or less" },
+        { status: 400 },
+      );
+    }
+
+    // Check for duplicate submissions (same name combination)
+    const duplicateCheck = await sql`
+      SELECT COUNT(*) as count
+      FROM rsvp_responses
+      WHERE LOWER(first_name) = LOWER(${firstName})
+      AND LOWER(last_name) = LOWER(${lastName})
+    `;
+
+    if (Number(duplicateCheck[0].count) > 0) {
+      return NextResponse.json(
+        {
+          error:
+            "An RSVP with this name has already been submitted. Contact us if you need to make changes.",
+        },
+        { status: 409 },
       );
     }
 
@@ -85,9 +134,9 @@ export async function POST(request: NextRequest) {
     // Insert into database
     const result = await sql`
       INSERT INTO rsvp_responses (first_name, last_name, is_attending, guest_count, message, timestamp)
-      VALUES (${body.firstName}, ${body.lastName}, ${body.isAttending}, ${
+      VALUES (${firstName}, ${lastName}, ${body.isAttending}, ${
       body.guestCount
-    }, ${body.message || null}, ${new Date().toISOString()})
+    }, ${message || null}, ${new Date().toISOString()})
       RETURNING id
     `;
 
