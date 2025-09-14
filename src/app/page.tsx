@@ -63,18 +63,18 @@ export default function HomePage() {
         <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center animate-bounce">
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            YAY! You&apos;re Coming!
+            {formData.isAttending ? "YAY! You're Coming!" : "Sorry to hear"}
           </h1>
           <p className="text-gray-600 mb-6">
             {formData.isAttending
-              ? `Can&apos;t wait to see you${
+              ? `Can't wait to see you${
                   formData.guestCount > 1
                     ? ` and your ${formData.guestCount - 1} guest${
                         formData.guestCount > 2 ? "s" : ""
                       }!`
                     : "!"
                 }`
-              : "We&apos;ll miss you, but thanks for letting us know!"}
+              : "We'll miss you, but thanks for letting us know!"}
           </p>
           <button
             onClick={() => setIsSubmitted(false)}

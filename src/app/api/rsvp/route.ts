@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { neon } from "@neondatabase/serverless";
 
 interface RSVPSubmission {
   firstName: string;
@@ -9,9 +10,40 @@ interface RSVPSubmission {
   timestamp: string;
 }
 
-// In-memory storage for demo purposes
-// In production, you'd use a database like PostgreSQL, MongoDB, or Supabase
-const rsvpResponses: RSVPSubmission[] = [];
+interface RSVPRecord extends Record<string, unknown> {
+  id: number;
+  first_name: string;
+  last_name: string;
+  is_attending: boolean;
+  guest_count: number;
+  message: string | null;
+  timestamp: string;
+  created_at: string;
+  updated_at: string;
+}
+
+const getDatabaseUrl = () => {
+  if (process.env.NODE_ENV === "development") {
+    return process.env.DATABASE_URL_DEV || process.env.DATABASE_URL!;
+  }
+  return process.env.DATABASE_URL!;
+};
+
+const sql = neon(getDatabaseUrl());
+
+function isRSVPRecord(record: Record<string, unknown>): record is RSVPRecord {
+  return (
+    typeof record.id === "number" &&
+    typeof record.first_name === "string" &&
+    typeof record.last_name === "string" &&
+    typeof record.is_attending === "boolean" &&
+    typeof record.guest_count === "number" &&
+    (record.message === null || typeof record.message === "string") &&
+    typeof record.timestamp === "string" &&
+    typeof record.created_at === "string" &&
+    typeof record.updated_at === "string"
+  );
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,30 +65,37 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if we're at capacity (100 guests max)
-    const totalGuests =
-      rsvpResponses
-        .filter((r) => r.isAttending)
-        .reduce((sum, r) => sum + r.guestCount, 0) + body.guestCount;
+    const capacityResult = await sql`
+      SELECT COALESCE(SUM(guest_count), 0) as total_guests
+      FROM rsvp_responses
+      WHERE is_attending = true
+    `;
 
-    if (totalGuests > 100) {
+    const currentTotalGuests = Number(capacityResult[0].total_guests);
+    const newTotalGuests =
+      currentTotalGuests + (body.isAttending ? body.guestCount : 0);
+
+    if (body.isAttending && newTotalGuests > 100) {
       return NextResponse.json(
         { error: "Sorry, we've reached our maximum capacity of 100 guests!" },
         { status: 409 },
       );
     }
 
-    // Add timestamp
-    const submission: RSVPSubmission = {
-      ...body,
-      timestamp: new Date().toISOString(),
-    };
-
-    rsvpResponses.push(submission);
+    // Insert into database
+    const result = await sql`
+      INSERT INTO rsvp_responses (first_name, last_name, is_attending, guest_count, message, timestamp)
+      VALUES (${body.firstName}, ${body.lastName}, ${body.isAttending}, ${
+      body.guestCount
+    }, ${body.message || null}, ${new Date().toISOString()})
+      RETURNING id
+    `;
 
     return NextResponse.json({
       success: true,
       message: "RSVP submitted successfully!",
-      totalGuests,
+      totalGuests: newTotalGuests,
+      id: result[0].id,
     });
   } catch (error) {
     console.error("RSVP submission error:", error);
@@ -69,16 +108,45 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const attendingCount = rsvpResponses.filter((r) => r.isAttending).length;
-    const totalGuests = rsvpResponses
-      .filter((r) => r.isAttending)
-      .reduce((sum, r) => sum + r.guestCount, 0);
+    // Get all responses
+    const responses = await sql`
+      SELECT
+        id,
+        first_name,
+        last_name,
+        is_attending,
+        guest_count,
+        message,
+        timestamp,
+        created_at
+      FROM rsvp_responses
+      ORDER BY created_at DESC
+    `;
+
+    // Get summary statistics
+    const stats = await sql`
+      SELECT
+        COUNT(*) as total_responses,
+        COUNT(*) FILTER (WHERE is_attending = true) as attending_count,
+        COALESCE(SUM(guest_count) FILTER (WHERE is_attending = true), 0) as total_guests
+      FROM rsvp_responses
+    `;
+
+    // Convert database format to API format
+    const formattedResponses = responses.filter(isRSVPRecord).map((record) => ({
+      firstName: record.first_name,
+      lastName: record.last_name,
+      isAttending: record.is_attending,
+      guestCount: record.guest_count,
+      message: record.message,
+      timestamp: record.timestamp,
+    }));
 
     return NextResponse.json({
-      totalResponses: rsvpResponses.length,
-      attendingCount,
-      totalGuests,
-      responses: rsvpResponses,
+      totalResponses: Number(stats[0].total_responses),
+      attendingCount: Number(stats[0].attending_count),
+      totalGuests: Number(stats[0].total_guests),
+      responses: formattedResponses,
     });
   } catch (error) {
     console.error("Error fetching RSVP data:", error);
