@@ -31,6 +31,7 @@ const getDatabaseUrl = () => {
 
 const sql = neon(getDatabaseUrl());
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function isRSVPRecord(record: Record<string, unknown>): record is RSVPRecord {
   return (
     typeof record.id === "number" &&
@@ -167,7 +168,8 @@ export async function GET() {
         guest_count,
         message,
         timestamp,
-        created_at
+        created_at,
+        updated_at
       FROM rsvp_responses
       ORDER BY created_at DESC
     `;
@@ -182,7 +184,7 @@ export async function GET() {
     `;
 
     // Convert database format to API format
-    const formattedResponses = responses.filter(isRSVPRecord).map((record) => ({
+    const formattedResponses = responses.map((record) => ({
       firstName: record.first_name,
       lastName: record.last_name,
       isAttending: record.is_attending,
