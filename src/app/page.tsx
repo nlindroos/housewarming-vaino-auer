@@ -32,7 +32,7 @@ const translations = {
     title: "Housewarming Party!",
     subtitle: "...och du är inbjuden",
     address: "Väinö Auers gata 15 B 21, 00560 Helsingfors",
-    date: "Lördag 8 november kl 15:00 och framåt",
+    date: "Lördag 8 november kl 15:00 framåt",
     familyFriendly:
       "Mimma och Niklas bjuder in dig! Kom och fira vårt nya hem. Familjevänlig timing – kom tidigt med barn, stanna sent utan dem. P.S. Om du är törstig är det bra att ta med egna drycker.",
     firstName: "Förnamn",
