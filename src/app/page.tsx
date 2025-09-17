@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,11 +47,13 @@ const translations = {
       "Ser fram emot att träffa er! Berätta t.ex. vilka ni är som kommer, om ni är många och om ni har speciella kostbehov eller allergier, vi försöker ta hänsyn till dessa.",
     messagePlaceholderNo:
       "Vi kommer att sakna er! Om ni vill meddela något, skriv bara här.",
+    rsvpDeadline: "Vänligen svara senast 1.11.",
     submit: "Skicka RSVP",
     submitting: "Skickar...",
     successTitle: "Tack för ditt svar!",
     successMessage: "Vi ser fram emot att träffa dig på festen!",
     errorMessage: "Något gick fel. Försök igen.",
+    errorContact: "Om problem kvarstår, kontakta bara Mimma eller Niklas.",
     maxGuests: "Max 100 gäster",
     goodFood: "Snacks & dryck",
     greatMusic: "(Bra) musik",
@@ -77,11 +80,13 @@ const translations = {
       "Odotamme innolla tapaamista! Kerro esim. keitä teitä tulee, jos on tulossa monta ja onko teillä esim. erityisruokavalioita tai allergioita, pyrimme ottamaan nämä huomioon.",
     messagePlaceholderNo:
       "Tulemme kaipaamaan teitä! Jos haluat kertoa jotain, kirjoita tähän.",
+    rsvpDeadline: "Vastaa viimeistään 1.11.",
     submit: "Lähetä RSVP",
     submitting: "Lähetetään...",
     successTitle: "Kiitos vastauksestasi!",
     successMessage: "Odotamme innolla tapaamista juhlissa!",
     errorMessage: "Jokin meni pieleen. Yritä uudelleen.",
+    errorContact: "Jos ongelmia ilmenee, ota yhteyttä Mimmaan tai Niklasiin.",
     maxGuests: "Maks. 100 vierasta",
     goodFood: "Snackseja & juomaa",
     greatMusic: "(Hyvää) musiikkia",
@@ -108,11 +113,13 @@ const translations = {
       "Looking forward to seeing you! Please let us know e.g. who is coming, if there are many of you and if you have any special dietary requirements or allergies, we'll try to take these into account.",
     messagePlaceholderNo:
       "We'll miss you! If you have anything you want us to know, write it here.",
+    rsvpDeadline: "Please RSVP by 1.11.",
     submit: "Send RSVP",
     submitting: "Sending...",
     successTitle: "Thanks for your response!",
     successMessage: "We look forward to seeing you at the party!",
     errorMessage: "Something went wrong. Please try again.",
+    errorContact: "In case of any problems, just message Mimma or Niklas.",
     maxGuests: "Max 100 guests",
     goodFood: "Snacks & drinks",
     greatMusic: "(Great) music",
@@ -161,14 +168,14 @@ export default function HomePage() {
       const result = await response.json();
 
       if (!response.ok) {
-        alert(result.error || "Failed to submit RSVP");
+        alert(`${result.error || t.errorMessage}\n\n${t.errorContact}`);
         return;
       }
 
       setIsSubmitted(true);
     } catch (error) {
       console.error("Error submitting RSVP:", error);
-      alert("Failed to submit RSVP. Please try again.");
+      alert(`${t.errorMessage}\n\n${t.errorContact}`);
     } finally {
       setIsLoading(false);
     }
@@ -179,6 +186,169 @@ export default function HomePage() {
     value: string | boolean | number,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const NamePopover = ({
+    name,
+    children,
+  }: {
+    name: string;
+    children: React.ReactNode;
+  }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const nameRef = useRef<HTMLSpanElement>(null);
+
+    const handleMouseEnter = (e: React.MouseEvent) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top - 10,
+      });
+      setIsVisible(true);
+    };
+
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+    };
+
+    const sillyMessages = {
+      Mimma: [
+        "🌟 Party Queen! 🌟",
+        "🎉 The Fun One! 🎉",
+        "✨ Sparkle Master ✨",
+      ],
+      Niklas: [
+        "🤓 Tech Wizard! 🤓",
+        "🎸 Music Guru! 🎸",
+        "🏠 Home Builder! 🏠",
+      ],
+    };
+
+    const getRandomMessage = (personName: string) => {
+      const messages = sillyMessages[
+        personName as keyof typeof sillyMessages
+      ] || ["🎉 Party Person! 🎉"];
+      return messages[Math.floor(Math.random() * messages.length)];
+    };
+
+    return (
+      <>
+        <span
+          ref={nameRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="text-pink-600 font-semibold cursor-pointer hover:text-pink-700 transition-all duration-300 underline decoration-dotted hover:scale-110 hover:rotate-1"
+        >
+          {children}
+        </span>
+        {isVisible && (
+          <div
+            className="fixed z-50 transform -translate-x-1/2 -translate-y-full transition-all duration-300 animate-bounce"
+            style={{
+              left: position.x,
+              top: position.y,
+            }}
+          >
+            <div className="bg-gradient-to-br from-yellow-300 via-pink-300 to-purple-400 border-4 border-dashed border-rainbow rounded-3xl shadow-2xl p-4 max-w-xs transform rotate-3 hover:rotate-0 transition-transform duration-300">
+              <div className="text-center relative">
+                {/* Silly decorative elements */}
+                <div className="absolute -top-2 -left-2 text-2xl animate-spin">
+                  🌟
+                </div>
+                <div className="absolute -top-2 -right-2 text-2xl animate-bounce">
+                  🎉
+                </div>
+                <div className="absolute -bottom-1 -left-1 text-xl animate-bounce">
+                  ✨
+                </div>
+                <div className="absolute -bottom-1 -right-1 text-xl animate-ping">
+                  💫
+                </div>
+
+                {/* Image placeholder with silly styling */}
+                <div className="w-24 h-24 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full border-4 border-white shadow-lg mx-auto mb-3 flex items-center justify-center transform hover:scale-110 transition-transform duration-300 relative overflow-hidden">
+                  {/* Emoji fallback - only show if image hasn't loaded */}
+                  {!imageLoaded && (
+                    <div className="text-4xl z-10">
+                      {name === "Mimma" ? "👩" : "👨"}
+                    </div>
+                  )}
+                  {/* Actual image */}
+                  <Image
+                    src={`/${name.toLowerCase()}.jpg`}
+                    alt={name}
+                    width={96}
+                    height={96}
+                    className={`w-full h-full rounded-full object-cover absolute inset-0 z-20 ${
+                      imageLoaded ? "opacity-100" : "opacity-0"
+                    }`}
+                    onLoad={() => {
+                      setImageLoaded(true);
+                    }}
+                    onError={() => {
+                      setImageLoaded(false);
+                    }}
+                  />
+                </div>
+
+                {/* Silly name with effects */}
+                <h4 className="font-bold text-purple-800 text-lg mb-2 transform hover:scale-105 transition-transform">
+                  {name}
+                </h4>
+
+                {/* Random silly message */}
+                <p className="text-sm font-medium text-purple-700 bg-white/70 rounded-full px-3 py-1 animate-pulse">
+                  {getRandomMessage(name)}
+                </p>
+              </div>
+
+              {/* Silly arrow with rainbow effect */}
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2">
+                <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-yellow-300 animate-bounce"></div>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const renderTextWithNames = (text: string) => {
+    const parts = text.split(/(\bMimma\s*&\s*Niklas\b|\bMimma\b|\bNiklas\b)/g);
+    return parts.map((part, index) => {
+      if (part === "Mimma" || part === "Niklas") {
+        return (
+          <NamePopover key={index} name={part}>
+            {part}
+          </NamePopover>
+        );
+      } else if (part.match(/Mimma\s*&\s*Niklas/)) {
+        const nameParts = part.split(/(\s*&\s*)/);
+        return (
+          <span key={index} className="whitespace-nowrap">
+            {nameParts.map((namePart, nameIndex) => {
+              if (namePart === "Mimma") {
+                return (
+                  <NamePopover key={nameIndex} name="Mimma">
+                    Mimma
+                  </NamePopover>
+                );
+              } else if (namePart === "Niklas") {
+                return (
+                  <NamePopover key={nameIndex} name="Niklas">
+                    Niklas
+                  </NamePopover>
+                );
+              }
+              return namePart;
+            })}
+          </span>
+        );
+      }
+      return <span key={index}>{part}</span>;
+    });
   };
 
   if (isSubmitted) {
@@ -322,7 +492,9 @@ END:VCALENDAR`;
           <Alert className="text-left mb-4">
             <Heart className="h-4 w-4" />
             <AlertDescription className="text-sm whitespace-pre-line">
-              {t.familyFriendly}
+              <div className="inline">
+                {renderTextWithNames(t.familyFriendly)}
+              </div>
             </AlertDescription>
           </Alert>
         </CardHeader>
@@ -460,6 +632,10 @@ END:VCALENDAR`;
               <div className="text-right text-sm text-muted-foreground">
                 {formData.message?.length ?? 0}/500 {t.charactersText}
               </div>
+            </div>
+
+            <div className="text-center text-sm text-foreground font-medium italic mb-2">
+              {t.rsvpDeadline}
             </div>
 
             <Button
