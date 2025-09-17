@@ -251,7 +251,11 @@ export default function HomePage() {
               top: position.y,
             }}
           >
-            <div className="bg-gradient-to-br from-yellow-300 via-pink-300 to-purple-400 border-4 border-dashed border-rainbow rounded-3xl shadow-2xl p-4 max-w-xs transform rotate-3 hover:rotate-0 transition-transform duration-300">
+            <div
+              className={`bg-gradient-to-br from-yellow-300 via-pink-300 to-purple-400 border-4 border-dashed border-rainbow rounded-3xl shadow-2xl p-4 max-w-xs transform ${
+                name === "Mimma" ? "-rotate-3" : "rotate-3"
+              } hover:rotate-0 transition-transform duration-300`}
+            >
               <div className="text-center relative">
                 {/* Silly decorative elements */}
                 <div className="absolute -top-2 -left-2 text-2xl animate-spin">
