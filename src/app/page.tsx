@@ -34,7 +34,7 @@ const translations = {
     address: "Väinö Auers gata 15 B 21, 00560 Helsingfors",
     date: "Lördag 8 november kl 15:00 framåt",
     familyFriendly:
-      "Mimma och Niklas bjuder in dig! Kom och fira vårt nya hem. Familjevänlig timing – kom tidigt med barn, stanna sent utan dem. P.S. Om du är törstig är det bra att ta med egna drycker.",
+      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Tarjolla är mat och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nKom och stanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter sent på kvällen.\n\nVi hoppas vi ses ❤\n\nHälsningar,\nMimma & Niklas",
     firstName: "Förnamn",
     lastName: "Efternamn",
     attending: "Kommer du?",
@@ -43,16 +43,17 @@ const translations = {
     guestCount: "Antal gäster (inklusive dig själv)",
     messageLabel: "Meddelande (valfritt)",
     messagePlaceholderYes:
-      "Ser fram emot att träffa er! Något speciellt ni vill att vi ska veta?",
-    messagePlaceholderNo: "Vi kommer att sakna er! Hoppas vi ses snart.",
+      "Ser fram emot att träffa er! Berätta t.ex. vilka ni är som kommer, om ni är många och om ni har speciella kostbehov eller allergier, vi försöker ta hänsyn till dessa.",
+    messagePlaceholderNo:
+      "Vi kommer att sakna er! Om ni vill meddela något, skriv bara här.",
     submit: "Skicka RSVP",
     submitting: "Skickar...",
     successTitle: "Tack för ditt svar!",
     successMessage: "Vi ser fram emot att träffa dig på festen!",
     errorMessage: "Något gick fel. Försök igen.",
     maxGuests: "Max 100 gäster",
-    goodFood: "God mat & dryck",
-    greatMusic: "Bra musik",
+    goodFood: "Snacks & dryck",
+    greatMusic: "(Bra) musik",
     calendarTitle: "Housewarming Party",
     calendarDescription:
       "Kom och fira vårt nya hem! Familjevänlig timing – kom tidigt med barn, stanna sent utan dem.",
@@ -64,7 +65,7 @@ const translations = {
     address: "Väinö Auerin katu 15 B 21, 00560 Helsinki",
     date: "Lauantai 8. marraskuuta klo 15:00 alkaen",
     familyFriendly:
-      "Mimma ja Niklas kutsuvat sinut! Tule juhlimaan uutta kotiamme. Perheystävällinen aikataulu – tule aikaisin lasten kanssa, jää myöhään ilman heitä. P.S. Jos on kova jano niin kannattaa ottaa mukaan omia juomia.",
+      "Tervetuloa!\n\nTule juhlimaan meidän kanssamme uutta kotiamme. Tarjolla on syötävää ja juotavaa, mutta janoisempien kannattaa ottaa myös omia juomia mukaan.\n\nTule viihtymään pidemmäksi aikaa tai tule vain piipahtamaan omien aikataulujesi puitteissa. Juhlat alkavat lapsiystävällisesti jo klo 15 ja jatkuvat myöhäisiltaan asti.\n\nToivottavasti nähdään ❤\n\nTerkuin,\nMimma & Niklas",
     firstName: "Etunimi",
     lastName: "Sukunimi",
     attending: "Tuletko?",
@@ -73,17 +74,17 @@ const translations = {
     guestCount: "Vieraiden määrä (sisältäen sinut)",
     messageLabel: "Viesti (valinnainen)",
     messagePlaceholderYes:
-      "Odotamme innolla tapaamista! Onko jotain erityistä mitä meidän pitäisi tietää?",
+      "Odotamme innolla tapaamista! Kerro esim. keitä teitä tulee, jos on tulossa monta ja onko teillä esim. erityisruokavalioita tai allergioita, pyrimme ottamaan nämä huomioon.",
     messagePlaceholderNo:
-      "Tulemme kaipaamaan teitä! Toivottavasti nähdään pian.",
+      "Tulemme kaipaamaan teitä! Jos haluat kertoa jotain, kirjoita tähän.",
     submit: "Lähetä RSVP",
     submitting: "Lähetetään...",
     successTitle: "Kiitos vastauksestasi!",
     successMessage: "Odotamme innolla tapaamista juhlissa!",
     errorMessage: "Jokin meni pieleen. Yritä uudelleen.",
-    maxGuests: "Max 100 vierasta",
-    goodFood: "Hyvää ruokaa & juomaa",
-    greatMusic: "Hyvää musiikkia",
+    maxGuests: "Maks. 100 vierasta",
+    goodFood: "Snackseja & juomaa",
+    greatMusic: "(Hyvää) musiikkia",
     calendarTitle: "Tupaantuliaiset",
     calendarDescription:
       "Tule juhlimaan uutta kotiamme! Perheystävällinen aikataulu – tule aikaisin lasten kanssa, jää myöhään ilman heitä.",
@@ -95,7 +96,7 @@ const translations = {
     address: "Väinö Auers gata 15 B 21, 00560 Helsinki",
     date: "Saturday November 8 at 15:00 onwards",
     familyFriendly:
-      "Mimma and Niklas invite you! Come celebrate our new home. Family-friendly timing – arrive early with kids, stay late without them. P.S. If you get thirsty, feel free to bring your own drinks.",
+      "Welcome!\n\nCome celebrate our new home with us. We'll provide food and drinks, but thirsty guests are encouraged to bring their own drinks too.\n\nCome and stay for a long time or just drop by according to your own schedule. The party starts family-friendly at 3 PM and continues late into the evening.\n\nHope to see you ❤\n\nBest regards,\nMimma & Niklas",
     firstName: "First Name",
     lastName: "Last Name",
     attending: "Are you coming?",
@@ -104,16 +105,17 @@ const translations = {
     guestCount: "Number of guests (including yourself)",
     messageLabel: "Message (optional)",
     messagePlaceholderYes:
-      "Looking forward to seeing you! Anything special we should know?",
-    messagePlaceholderNo: "We'll miss you! Hope to see you soon.",
+      "Looking forward to seeing you! Please let us know e.g. who is coming, if there are many of you and if you have any special dietary requirements or allergies, we'll try to take these into account.",
+    messagePlaceholderNo:
+      "We'll miss you! If you have anything you want us to know, write it here.",
     submit: "Send RSVP",
     submitting: "Sending...",
     successTitle: "Thanks for your response!",
     successMessage: "We look forward to seeing you at the party!",
     errorMessage: "Something went wrong. Please try again.",
     maxGuests: "Max 100 guests",
-    goodFood: "Good food & drinks",
-    greatMusic: "Great music",
+    goodFood: "Snacks & drinks",
+    greatMusic: "(Great) music",
     calendarTitle: "Housewarming Party",
     calendarDescription:
       "Come celebrate our new home! Family-friendly timing – arrive early with kids, stay late without them.",
@@ -201,7 +203,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 flex items-center justify-center p-4">
-      <Card className="max-w-md w-full min-w-[340px] shadow-2xl border-0">
+      <Card className="max-w-lg w-full min-w-[340px] shadow-2xl border-0">
         {/* Language Switcher */}
         <div className="flex justify-center gap-2 p-4 pb-0">
           <Button
@@ -319,7 +321,7 @@ END:VCALENDAR`;
 
           <Alert className="text-left mb-4">
             <Heart className="h-4 w-4" />
-            <AlertDescription className="text-sm">
+            <AlertDescription className="text-sm whitespace-pre-line">
               {t.familyFriendly}
             </AlertDescription>
           </Alert>
