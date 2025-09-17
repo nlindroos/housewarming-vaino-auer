@@ -198,6 +198,7 @@ export default function HomePage() {
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [shouldBounce, setShouldBounce] = useState(false);
     const nameRef = useRef<HTMLSpanElement>(null);
 
     const handleMouseEnter = (e: React.MouseEvent) => {
@@ -207,6 +208,9 @@ export default function HomePage() {
         y: rect.top - 10,
       });
       setIsVisible(true);
+      setShouldBounce(true);
+      // Stop animation at 1.5s after bounce cycles
+      setTimeout(() => setShouldBounce(false), 1500);
     };
 
     const handleMouseLeave = () => {
@@ -245,10 +249,13 @@ export default function HomePage() {
         </span>
         {isVisible && (
           <div
-            className="fixed z-50 transform -translate-x-1/2 -translate-y-full transition-all duration-300 animate-bounce"
+            className="fixed z-50 transform -translate-x-1/2 -translate-y-full transition-all duration-300"
             style={{
               left: position.x,
               top: position.y,
+              animation: shouldBounce
+                ? "bounce 1s ease-in-out infinite"
+                : "none",
             }}
           >
             <div
