@@ -34,7 +34,7 @@ const translations = {
     address: "Väinö Auers gata 15 B 21, 00560 Helsingfors",
     date: "Lördag 8 november kl 15:00 framåt",
     familyFriendly:
-      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nKom och stanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter sent på kvällen.\n\nVi hoppas vi ses ❤\n\nHälsningar,\nMimma & Niklas",
+      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nStanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter tills sent på kvällen.\n\nVi hoppas vi ses ❤\n\nHälsningar,\nMimma & Niklas",
     firstName: "Förnamn",
     lastName: "Efternamn",
     attending: "Kommer du?",
@@ -202,6 +202,25 @@ export default function HomePage() {
     const [currentImageSrc, setCurrentImageSrc] = useState("");
     const [currentMessage, setCurrentMessage] = useState("");
     const nameRef = useRef<HTMLSpanElement>(null);
+
+    // Preload images for instant display (after initial page load)
+    useEffect(() => {
+      // Delay preloading to not interfere with LCP
+      const imagesToPreload = [
+        "/mimma1.jpeg",
+        "/mimma2.jpeg",
+        "/niklas1.jpg",
+        "/niklas2.jpg",
+      ];
+
+      imagesToPreload.forEach((src) => {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = src;
+        document.head.appendChild(link);
+      });
+    }, []);
 
     const handleMouseEnter = (e: React.MouseEvent) => {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -543,14 +562,14 @@ END:VCALENDAR`;
             <AlertDescription className="text-sm leading-relaxed pl-2">
               <div className="space-y-3">
                 {t.familyFriendly.split("\n\n").map((paragraph, index) => (
-                  <p
+                  <div
                     key={index}
                     className={`${
                       index === 0 ? "font-medium text-pink-700" : ""
                     }`}
                   >
                     {renderTextWithNames(paragraph)}
-                  </p>
+                  </div>
                 ))}
               </div>
             </AlertDescription>
