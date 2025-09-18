@@ -29,7 +29,7 @@ type Language = "sv" | "fi" | "en";
 
 const translations = {
   sv: {
-    title: "Housewarming party!",
+    title: "Inflyttningsfest!",
     subtitle: "...och du är inbjuden.",
     address: "Väinö Auers gata 15 B 21, 00560 Helsingfors",
     date: "Lördag 8 november kl 15:00 framåt",
@@ -62,12 +62,13 @@ const translations = {
     emailPlaceholder: "din@email.com",
     messageHintAttending: "Tips för er som kommer",
     messageHintNotAttending: "Meddelande till oss",
+    partyDetails: "Festdetaljer",
     errorMessage: "Något gick fel. Försök igen.",
     errorContact: "Om problemet återkommer, kontakta Mimma eller Niklas.",
     maxGuests: "Max 100 gäster",
     goodFood: "Snacks & dryck",
     greatMusic: "(Bra) musik",
-    calendarTitle: "Housewarming Party",
+    calendarTitle: "Inflyttningsfest",
     calendarDescription:
       "Kom och fira vårt nya hem! Familjevänlig timing – kom tidigt med barn, stanna sent utan dem.",
     charactersText: "tecken",
@@ -106,6 +107,7 @@ const translations = {
     emailPlaceholder: "sinun@email.com",
     messageHintAttending: "Vinkkejä tuleville vieraille",
     messageHintNotAttending: "Viesti meille",
+    partyDetails: "Juhlan tiedot",
     errorMessage: "Jokin meni pieleen. Yritä uudelleen.",
     errorContact: "Jos ongelmia ilmenee, ota yhteyttä Mimmaan tai Niklakseen.",
     goodFood: "Snackseja & juomaa",
@@ -149,6 +151,7 @@ const translations = {
     emailPlaceholder: "your@email.com",
     messageHintAttending: "Tips for attendees",
     messageHintNotAttending: "Message to us",
+    partyDetails: "Party Details",
     errorMessage: "Something went wrong. Please try again.",
     errorContact: "In case of any problems, just message Mimma or Niklas.",
     goodFood: "Snacks & drinks",
@@ -459,13 +462,82 @@ export default function HomePage() {
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center animate-bounce-twice">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full text-center animate-bounce-twice">
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
             {t.successTitle}
           </h1>
-          <p className="text-gray-600 mb-4">{t.successMessage}</p>
+          <p className="text-gray-600 mb-6">{t.successMessage}</p>
 
+          {/* Party Details */}
+          <div className="bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-xl p-6 mb-6 text-left">
+            <h3 className="text-lg font-semibold text-pink-700 mb-4 text-center">
+              📅 {formData.isAttending ? t.calendarTitle : t.partyDetails}
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <Calendar className="h-4 w-4 text-pink-600 flex-shrink-0" />
+                <span className="text-sm text-gray-700">{t.date}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 text-pink-600 flex-shrink-0" />
+                <span className="text-sm text-gray-700">{t.address}</span>
+              </div>
+              {formData.isAttending && (
+                <div className="flex items-center gap-3">
+                  <Users className="h-4 w-4 text-pink-600 flex-shrink-0" />
+                  <span className="text-sm text-gray-700">
+                    {formData.guestCount}{" "}
+                    {formData.guestCount > 1
+                      ? language === "sv"
+                        ? "personer"
+                        : language === "fi"
+                          ? "henkilöä"
+                          : "people"
+                      : language === "sv"
+                        ? "person"
+                        : language === "fi"
+                          ? "henkilö"
+                          : "person"}
+                  </span>
+                </div>
+              )}
+              {formData.message && formData.message.trim().length > 0 && (
+                <div className="mt-4 pt-3 border-t border-pink-200">
+                  <div className="flex items-start gap-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-4 w-4 text-pink-600 flex-shrink-0 mt-0.5"
+                    >
+                      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    </svg>
+                    <div>
+                      <h4 className="font-semibold mb-1 text-sm text-pink-700">
+                        {language === "sv"
+                          ? "Ditt meddelande:"
+                          : language === "fi"
+                            ? "Viestisi:"
+                            : "Your message:"}
+                      </h4>
+                      <p className="text-sm italic text-gray-600">
+                        &ldquo;{formData.message}&rdquo;
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Email Status */}
           {hasEmail ? (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
               <div className="flex items-center justify-center gap-2 text-green-700">
@@ -485,7 +557,14 @@ export default function HomePage() {
                   <path d="m22 7-10 5L2 7" />
                   <path d="m16 19 2 2 4-4" />
                 </svg>
-                <span className="font-medium">{t.successEmailSent}</span>
+                <div className="text-center">
+                  <span className="font-medium block">
+                    {t.successEmailSent}
+                  </span>
+                  <span className="text-sm text-green-600 font-mono">
+                    {formData.email}
+                  </span>
+                </div>
               </div>
             </div>
           ) : (

@@ -59,7 +59,7 @@ const emailTemplates = {
               }</p>
             </div>
 
-            <p style="color: #374151; line-height: 1.6;">Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker. Kom och stanna länge eller kom bara förbi enligt dina egna planer!</p>
+            <p style="color: #374151; line-height: 1.6;">Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker. Stanna länge eller kom bara förbi enligt dina egna planer!</p>
 
             ${
               message
