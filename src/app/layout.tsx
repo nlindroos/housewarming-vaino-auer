@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Housewarming M & N",
   description:
-    "RSVP for Mimma and Niklas' housewarming party on November 8th, 2024 in Helsinki. Come celebrate our new home!",
+    "RSVP for Mimma and Niklas' housewarming party on November 8th, 2025 in Helsinki. Come celebrate our new home!",
   robots: {
     index: false,
     follow: false,
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Housewarming M & N",
-    description: "Come celebrate our new home! November 8th, 2024 in Helsinki.",
+    description: "Come celebrate our new home! November 8th, 2025 in Helsinki.",
     type: "website",
   },
 };

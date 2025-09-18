@@ -51,7 +51,7 @@ const emailTemplates = {
 
             <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ec4899;">
               <h3 style="margin-top: 0; color: #1f2937;">📅 Detaljer</h3>
-              <p style="margin: 5px 0; color: #374151;"><strong>Datum:</strong> Lördag 8 november 2024</p>
+              <p style="margin: 5px 0; color: #374151;"><strong>Datum:</strong> Lördag 8 november 2025</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Tid:</strong> 15:00 framåt</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Plats:</strong> Väinö Auers gata 15 B 21, 00560 Helsingfors</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Gäster:</strong> ${guestCount} ${
@@ -123,7 +123,7 @@ const emailTemplates = {
 
             <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ec4899;">
               <h3 style="margin-top: 0; color: #1f2937;">📅 Tiedot</h3>
-              <p style="margin: 5px 0; color: #374151;"><strong>Päivä:</strong> Lauantai 8. marraskuuta 2024</p>
+              <p style="margin: 5px 0; color: #374151;"><strong>Päivä:</strong> Lauantai 8. marraskuuta 2025</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Aika:</strong> klo 15:00 alkaen</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Paikka:</strong> Väinö Auerin katu 15 B 21, 00560 Helsinki</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Vieraat:</strong> ${guestCount} ${
@@ -195,7 +195,7 @@ const emailTemplates = {
 
             <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ec4899;">
               <h3 style="margin-top: 0; color: #1f2937;">📅 Details</h3>
-              <p style="margin: 5px 0; color: #374151;"><strong>Date:</strong> Saturday November 8th, 2024</p>
+              <p style="margin: 5px 0; color: #374151;"><strong>Date:</strong> Saturday November 8th, 2025</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Time:</strong> 3:00 PM onwards</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Location:</strong> Väinö Auers gata 15 B 21, 00560 Helsinki</p>
               <p style="margin: 5px 0; color: #374151;"><strong>Guests:</strong> ${guestCount} ${

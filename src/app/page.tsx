@@ -668,8 +668,8 @@ export default function HomePage() {
               className="flex items-center justify-center gap-2 cursor-pointer hover:text-foreground transition-colors"
               onClick={() => {
                 // Create calendar event
-                const startDate = new Date(2024, 10, 8, 15, 0); // November 8, 2024, 15:00
-                const endDate = new Date(2024, 10, 8, 23, 59); // November 8, 2024, 23:59
+                const startDate = new Date(2025, 10, 8, 15, 0); // November 8, 2025, 15:00
+                const endDate = new Date(2025, 10, 8, 23, 59); // November 8, 2025, 23:59
 
                 // Format dates for different calendar systems
                 const formatDateForICS = (date: Date) => {

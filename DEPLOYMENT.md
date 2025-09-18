@@ -53,7 +53,7 @@ For production, you might want to add these environment variables:
 
 ```bash
 # Optional: Add to your hosting platform's environment variables
-NEXT_PUBLIC_PARTY_DATE="2024-01-15"
+NEXT_PUBLIC_PARTY_DATE="2025-11-08"
 NEXT_PUBLIC_PARTY_TIME="7:00 PM"
 NEXT_PUBLIC_PARTY_LOCATION="123 Main St, City, State"
 ```
