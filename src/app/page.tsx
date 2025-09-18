@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
+// Using regular img tags for popovers to avoid loading placeholders
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -241,7 +241,29 @@ export default function HomePage() {
     const [currentMessage, setCurrentMessage] = useState("");
     const nameRef = useRef<HTMLSpanElement>(null);
 
-    // Note: Images are preloaded automatically by Next.js Image with priority prop
+    // Preload images for instant display (after initial page load)
+    useEffect(() => {
+      // Preload images for instant popover display
+      const imagesToPreload = [
+        "/mimma1.jpeg",
+        "/mimma2.jpeg",
+        "/niklas1.jpg",
+        "/niklas2.jpg",
+      ];
+
+      imagesToPreload.forEach((src) => {
+        // Use both preload link and actual image preloading for better caching
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = src;
+        document.head.appendChild(link);
+
+        // Also create actual image elements to force browser caching
+        const img = new Image();
+        img.src = src;
+      });
+    }, []);
 
     const handleMouseEnter = (e: React.MouseEvent) => {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -263,7 +285,14 @@ export default function HomePage() {
       }
 
       setCurrentImageSrc(imageSrc);
-      setImageLoaded(false); // Reset image loaded state
+
+      // Reset image loaded state, but check if image is already cached
+      setImageLoaded(false);
+
+      // Check if the image is already cached/loaded
+      const img = new Image();
+      img.onload = () => setImageLoaded(true);
+      img.src = imageSrc;
 
       // Set the message once when popover appears
       setCurrentMessage(getRandomMessage(name));
@@ -366,12 +395,10 @@ export default function HomePage() {
                   )}
                   {/* Actual image */}
                   {currentImageSrc && (
-                    <Image
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
                       src={currentImageSrc}
                       alt={name}
-                      width={96}
-                      height={96}
-                      priority
                       className={`w-full h-full rounded-full object-cover absolute inset-0 z-20 ${
                         imageLoaded ? "opacity-100" : "opacity-0"
                       }`}
