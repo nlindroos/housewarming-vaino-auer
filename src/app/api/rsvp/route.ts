@@ -40,7 +40,7 @@ const emailTemplates = {
   sv: {
     attending: {
       subject: "RSVP bekräftelse - inflyttningsfest 8 november! 🎉",
-      html: (name: string, guestCount: number) => `
+      html: (name: string, guestCount: number, message?: string) => `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%); padding: 30px; text-align: center; color: white; border-radius: 10px 10px 0 0;">
             <h1 style="margin: 0; font-size: 28px;">🏠 Inflyttningsfest! 🎉</h1>
@@ -61,6 +61,17 @@ const emailTemplates = {
 
             <p style="color: #374151; line-height: 1.6;">Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker. Kom och stanna länge eller kom bara förbi enligt dina egna planer!</p>
 
+            ${
+              message
+                ? `
+            <div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+              <h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">Ditt meddelande:</h4>
+              <p style="margin: 0; color: #0c4a6e; font-style: italic; line-height: 1.5;">"${message}"</p>
+            </div>
+            `
+                : ""
+            }
+
             <p style="color: #374151; line-height: 1.6;">Vi hoppas att vi ses! ❤️</p>
 
             <p style="color: #374151; margin-top: 30px;">Hälsningar,<br><strong>Mimma & Niklas</strong></p>
@@ -70,7 +81,7 @@ const emailTemplates = {
     },
     notAttending: {
       subject: "Tack för ditt svar - Vi kommer att sakna dig! 💔",
-      html: (name: string) => `
+      html: (name: string, guestCount: number, message?: string) => `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #dc2626 100%); padding: 30px; text-align: center; color: white; border-radius: 10px 10px 0 0;">
             <h1 style="margin: 0; font-size: 28px;">Vi kommer sakna dig! 💔</h1>
@@ -78,6 +89,17 @@ const emailTemplates = {
           <div style="padding: 30px; background: #f8fafc; border-radius: 0 0 10px 10px;">
             <h2 style="color: #1f2937;">Hej ${name}!</h2>
             <p style="color: #374151; line-height: 1.6;">Tack för att du lät oss veta att du inte kan komma till vår tupaantuliaiset. Vi kommer verkligen sakna dig!</p>
+
+            ${
+              message
+                ? `
+            <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+              <h4 style="margin: 0 0 8px 0; color: #92400e; font-size: 14px; font-weight: 600;">Ditt meddelande:</h4>
+              <p style="margin: 0; color: #92400e; font-style: italic; line-height: 1.5;">"${message}"</p>
+            </div>
+            `
+                : ""
+            }
 
             <p style="color: #374151; line-height: 1.6;">Vi hoppas att vi ses snart vid ett annat tillfälle. ❤️</p>
 
@@ -90,7 +112,7 @@ const emailTemplates = {
   fi: {
     attending: {
       subject: "RSVP:n vahvistus - Tuparit 8. marraskuuta! 🎉",
-      html: (name: string, guestCount: number) => `
+      html: (name: string, guestCount: number, message?: string) => `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%); padding: 30px; text-align: center; color: white; border-radius: 10px 10px 0 0;">
             <h1 style="margin: 0; font-size: 28px;">🏠 Tupaantuliaiset! 🎉</h1>
@@ -111,6 +133,17 @@ const emailTemplates = {
 
             <p style="color: #374151; line-height: 1.6;">Tarjolla on syötävää ja juotavaa, mutta janoisempien kannattaa ottaa myös omia juomia mukaan. Tule viihtymään pidemmäksi aikaa tai tule vain piipahtamaan!</p>
 
+            ${
+              message
+                ? `
+            <div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+              <h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">Viestisi:</h4>
+              <p style="margin: 0; color: #0c4a6e; font-style: italic; line-height: 1.5;">"${message}"</p>
+            </div>
+            `
+                : ""
+            }
+
             <p style="color: #374151; line-height: 1.6;">Toivottavasti nähdään! ❤️</p>
 
             <p style="color: #374151; margin-top: 30px;">Terkuin,<br><strong>Mimma & Niklas</strong></p>
@@ -120,7 +153,7 @@ const emailTemplates = {
     },
     notAttending: {
       subject: "Kiitos vastauksestasi - Tulemme kaipaamaan teitä! 💔",
-      html: (name: string) => `
+      html: (name: string, guestCount: number, message?: string) => `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #dc2626 100%); padding: 30px; text-align: center; color: white; border-radius: 10px 10px 0 0;">
             <h1 style="margin: 0; font-size: 28px;">Tulemme kaipaamaan teitä! 💔</h1>
@@ -128,6 +161,17 @@ const emailTemplates = {
           <div style="padding: 30px; background: #f8fafc; border-radius: 0 0 10px 10px;">
             <h2 style="color: #1f2937;">Hei ${name}!</h2>
             <p style="color: #374151; line-height: 1.6;">Kiitos, että ilmoitit ettet pääse tupaantuliaisiimme. Tulemme todella kaipaamaan teitä!</p>
+
+            ${
+              message
+                ? `
+            <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+              <h4 style="margin: 0 0 8px 0; color: #92400e; font-size: 14px; font-weight: 600;">Viestisi:</h4>
+              <p style="margin: 0; color: #92400e; font-style: italic; line-height: 1.5;">"${message}"</p>
+            </div>
+            `
+                : ""
+            }
 
             <p style="color: #374151; line-height: 1.6;">Toivomme että näemme pian jossain muussa yhteydessä. ❤️</p>
 
@@ -140,7 +184,7 @@ const emailTemplates = {
   en: {
     attending: {
       subject: "RSVP Confirmation - Housewarming Party November 8th! 🎉",
-      html: (name: string, guestCount: number) => `
+      html: (name: string, guestCount: number, message?: string) => `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%); padding: 30px; text-align: center; color: white; border-radius: 10px 10px 0 0;">
             <h1 style="margin: 0; font-size: 28px;">🏠 Housewarming Party! 🎉</h1>
@@ -161,6 +205,17 @@ const emailTemplates = {
 
             <p style="color: #374151; line-height: 1.6;">We'll provide food and drinks, but thirsty guests are encouraged to bring their own drinks too. Come and stay for a long time or just drop by according to your own schedule!</p>
 
+            ${
+              message
+                ? `
+            <div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+              <h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">Your message:</h4>
+              <p style="margin: 0; color: #0c4a6e; font-style: italic; line-height: 1.5;">"${message}"</p>
+            </div>
+            `
+                : ""
+            }
+
             <p style="color: #374151; line-height: 1.6;">Hope to see you! ❤️</p>
 
             <p style="color: #374151; margin-top: 30px;">Best regards,<br><strong>Mimma & Niklas</strong></p>
@@ -170,7 +225,7 @@ const emailTemplates = {
     },
     notAttending: {
       subject: "Thanks for your response - We'll miss you! 💔",
-      html: (name: string) => `
+      html: (name: string, guestCount: number, message?: string) => `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #dc2626 100%); padding: 30px; text-align: center; color: white; border-radius: 10px 10px 0 0;">
             <h1 style="margin: 0; font-size: 28px;">We'll miss you! 💔</h1>
@@ -178,6 +233,17 @@ const emailTemplates = {
           <div style="padding: 30px; background: #f8fafc; border-radius: 0 0 10px 10px;">
             <h2 style="color: #1f2937;">Hi ${name}!</h2>
             <p style="color: #374151; line-height: 1.6;">Thank you for letting us know you can't make it to our housewarming party. We'll really miss you!</p>
+
+            ${
+              message
+                ? `
+            <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+              <h4 style="margin: 0 0 8px 0; color: #92400e; font-size: 14px; font-weight: 600;">Your message:</h4>
+              <p style="margin: 0; color: #92400e; font-style: italic; line-height: 1.5;">"${message}"</p>
+            </div>
+            `
+                : ""
+            }
 
             <p style="color: #374151; line-height: 1.6;">We hope to see you soon on another occasion. ❤️</p>
 
@@ -194,12 +260,14 @@ async function sendConfirmationEmail({
   firstName,
   isAttending,
   guestCount,
+  message,
   language = "en",
 }: {
   email: string;
   firstName: string;
   isAttending: boolean;
   guestCount: number;
+  message?: string;
   language: string;
 }) {
   try {
@@ -215,7 +283,7 @@ async function sendConfirmationEmail({
       from: "Mimma & Niklas <noreply@mail.niklaslindroos.fi>",
       to: [email],
       subject: emailContent.subject,
-      html: emailContent.html(firstName, guestCount),
+      html: emailContent.html(firstName, guestCount, message),
     };
 
     console.log(`Email data:`, { ...emailData, html: "[HTML_CONTENT]" });
@@ -373,6 +441,7 @@ export async function POST(request: NextRequest) {
         firstName,
         isAttending: body.isAttending,
         guestCount: body.guestCount,
+        message: body.message,
         language: body.language || "en",
       });
     }
