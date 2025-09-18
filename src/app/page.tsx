@@ -32,9 +32,9 @@ const translations = {
     title: "Inflyttningsfest!",
     subtitle: "...och du är inbjuden.",
     address: "Väinö Auers gata 15 B 21, 00560 Helsingfors",
-    date: "Lördag 8 november kl 15:00 framåt",
+    date: "Lördag 8 november kl. 15:00 framåt",
     familyFriendly:
-      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nStanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter tills sent på kvällen.\n\nVi hoppas att vi ses ❤\n\nHälsningar,\nMimma & Niklas",
+      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nStanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl. 15 och fortsätter tills sent på kvällen.\n\nVi hoppas att vi ses ❤\n\nHälsningar,\nMimma & Niklas",
     firstName: "Förnamn",
     lastName: "Efternamn",
     email: "E-post (om du vill ha en bekräftelse)",
@@ -45,7 +45,7 @@ const translations = {
     messageLabel: "Meddelande (valfritt)",
     messagePlaceholder: "Ditt meddelande",
     messagePlaceholderYes:
-      "Ser fram emot att träffa er! Berätta under t.ex. vilka ni är som kommer, om ni är många och om ni har speciella kostbehov eller allergier, vi försöker ta hänsyn till dessa.",
+      "Vi ser fram emot att träffa er! Berätta under t.ex. vilka ni är som kommer, om ni är många och om ni har speciella kostbehov eller allergier, vi försöker ta hänsyn till dessa.",
     messagePlaceholderNo:
       "Vi kommer att sakna er! Om du vill meddela oss något, skriv bara här.",
     rsvpDeadline: "Vänligen svara senast 1.11.",
