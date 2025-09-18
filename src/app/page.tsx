@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,7 +22,6 @@ import {
   PartyPopper,
   UtensilsCrossed,
   Music,
-  UserCheck,
   Heart,
 } from "lucide-react";
 
@@ -30,12 +29,12 @@ type Language = "sv" | "fi" | "en";
 
 const translations = {
   sv: {
-    title: "Housewarming Party!",
-    subtitle: "...och du är inbjuden",
+    title: "Housewarming party!",
+    subtitle: "...och du är inbjuden.",
     address: "Väinö Auers gata 15 B 21, 00560 Helsingfors",
     date: "Lördag 8 november kl 15:00 framåt",
     familyFriendly:
-      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Tarjolla är mat och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nKom och stanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter sent på kvällen.\n\nVi hoppas vi ses ❤\n\nHälsningar,\nMimma & Niklas",
+      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nKom och stanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter sent på kvällen.\n\nVi hoppas vi ses ❤\n\nHälsningar,\nMimma & Niklas",
     firstName: "Förnamn",
     lastName: "Efternamn",
     attending: "Kommer du?",
@@ -43,17 +42,18 @@ const translations = {
     no: "Tyvärr, kan inte komma",
     guestCount: "Antal gäster (inklusive dig själv)",
     messageLabel: "Meddelande (valfritt)",
+    messagePlaceholder: "Ditt meddelande",
     messagePlaceholderYes:
       "Ser fram emot att träffa er! Berätta t.ex. vilka ni är som kommer, om ni är många och om ni har speciella kostbehov eller allergier, vi försöker ta hänsyn till dessa.",
     messagePlaceholderNo:
-      "Vi kommer att sakna er! Om ni vill meddela något, skriv bara här.",
+      "Vi kommer att sakna er! Om du vill meddela oss något, skriv bara här.",
     rsvpDeadline: "Vänligen svara senast 1.11.",
     submit: "Skicka RSVP",
     submitting: "Skickar...",
     successTitle: "Tack för ditt svar!",
     successMessage: "Vi ser fram emot att träffa dig på festen!",
     errorMessage: "Något gick fel. Försök igen.",
-    errorContact: "Om problem kvarstår, kontakta bara Mimma eller Niklas.",
+    errorContact: "Om problemet återkommer, kontakta Mimma eller Niklas.",
     maxGuests: "Max 100 gäster",
     goodFood: "Snacks & dryck",
     greatMusic: "(Bra) musik",
@@ -63,8 +63,8 @@ const translations = {
     charactersText: "tecken",
   },
   fi: {
-    title: "Tupaantuliaiset!",
-    subtitle: "...ja sinut on kutsuttu",
+    title: "Tuparit!",
+    subtitle: "...ja sinut on kutsuttu.",
     address: "Väinö Auerin katu 15 B 21, 00560 Helsinki",
     date: "Lauantai 8. marraskuuta klo 15:00 alkaen",
     familyFriendly:
@@ -76,18 +76,18 @@ const translations = {
     no: "Valitettavasti en pääse",
     guestCount: "Vieraiden määrä (sisältäen sinut)",
     messageLabel: "Viesti (valinnainen)",
+    messagePlaceholder: "Viestisi",
     messagePlaceholderYes:
       "Odotamme innolla tapaamista! Kerro esim. keitä teitä tulee, jos on tulossa monta ja onko teillä esim. erityisruokavalioita tai allergioita, pyrimme ottamaan nämä huomioon.",
     messagePlaceholderNo:
-      "Tulemme kaipaamaan teitä! Jos haluat kertoa jotain, kirjoita tähän.",
+      "Tulemme kaipaamaan teitä! Jos haluat kertoa meille jotain, kirjoita se tähän.",
     rsvpDeadline: "Vastaa viimeistään 1.11.",
     submit: "Lähetä RSVP",
     submitting: "Lähetetään...",
     successTitle: "Kiitos vastauksestasi!",
     successMessage: "Odotamme innolla tapaamista juhlissa!",
     errorMessage: "Jokin meni pieleen. Yritä uudelleen.",
-    errorContact: "Jos ongelmia ilmenee, ota yhteyttä Mimmaan tai Niklasiin.",
-    maxGuests: "Maks. 100 vierasta",
+    errorContact: "Jos ongelmia ilmenee, ota yhteyttä Mimmaan tai Niklakseen.",
     goodFood: "Snackseja & juomaa",
     greatMusic: "(Hyvää) musiikkia",
     calendarTitle: "Tupaantuliaiset",
@@ -109,6 +109,7 @@ const translations = {
     no: "Sorry, can't make it",
     guestCount: "Number of guests (including yourself)",
     messageLabel: "Message (optional)",
+    messagePlaceholder: "Your message",
     messagePlaceholderYes:
       "Looking forward to seeing you! Please let us know e.g. who is coming, if there are many of you and if you have any special dietary requirements or allergies, we'll try to take these into account.",
     messagePlaceholderNo:
@@ -120,7 +121,6 @@ const translations = {
     successMessage: "We look forward to seeing you at the party!",
     errorMessage: "Something went wrong. Please try again.",
     errorContact: "In case of any problems, just message Mimma or Niklas.",
-    maxGuests: "Max 100 guests",
     goodFood: "Snacks & drinks",
     greatMusic: "(Great) music",
     calendarTitle: "Housewarming Party",
@@ -199,6 +199,8 @@ export default function HomePage() {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [imageLoaded, setImageLoaded] = useState(false);
     const [shouldBounce, setShouldBounce] = useState(false);
+    const [currentImageSrc, setCurrentImageSrc] = useState("");
+    const [currentMessage, setCurrentMessage] = useState("");
     const nameRef = useRef<HTMLSpanElement>(null);
 
     const handleMouseEnter = (e: React.MouseEvent) => {
@@ -207,15 +209,53 @@ export default function HomePage() {
         x: rect.left + rect.width / 2,
         y: rect.top - 10,
       });
+
+      // Set random image for Mimma and Niklas
+      if (name === "Mimma") {
+        const randomImage = Math.random() < 0.5 ? "mimma1.jpeg" : "mimma2.jpeg";
+        setCurrentImageSrc(`/${randomImage}`);
+      } else if (name === "Niklas") {
+        const randomImage = Math.random() < 0.5 ? "niklas1.jpg" : "niklas2.jpg";
+        setCurrentImageSrc(`/${randomImage}`);
+      } else {
+        setCurrentImageSrc(`/${name.toLowerCase()}.jpg`);
+      }
+
+      setImageLoaded(false); // Reset image loaded state
+
+      // Set the message once when popover appears
+      setCurrentMessage(getRandomMessage(name));
+
       setIsVisible(true);
-      setShouldBounce(true);
-      // Stop animation at 1.5s after bounce cycles
-      setTimeout(() => setShouldBounce(false), 1500);
+
+      // Reset bounce animation properly
+      setShouldBounce(false);
+      // Use setTimeout to ensure the animation resets before starting again
+      setTimeout(() => {
+        setShouldBounce(true);
+        // Stop animation after 1.5s
+        setTimeout(() => setShouldBounce(false), 1500);
+      }, 10);
     };
 
     const handleMouseLeave = () => {
       setIsVisible(false);
     };
+
+    // Hide popover on scroll (for mobile)
+    useEffect(() => {
+      if (!isVisible) return;
+
+      const handleScroll = () => {
+        setIsVisible(false);
+      };
+
+      window.addEventListener("scroll", handleScroll, { passive: true });
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, [isVisible]);
 
     const sillyMessages = {
       Mimma: [
@@ -223,11 +263,7 @@ export default function HomePage() {
         "🎉 The Fun One! 🎉",
         "✨ Sparkle Master ✨",
       ],
-      Niklas: [
-        "🤓 Tech Wizard! 🤓",
-        "🎸 Music Guru! 🎸",
-        "🏠 Home Builder! 🏠",
-      ],
+      Niklas: ["🤓 Tech Wizard! 🤓", "🍕 Pizza Connoisseur! 🍕"],
     };
 
     const getRandomMessage = (personName: string) => {
@@ -287,21 +323,23 @@ export default function HomePage() {
                     </div>
                   )}
                   {/* Actual image */}
-                  <Image
-                    src={`/${name.toLowerCase()}.jpg`}
-                    alt={name}
-                    width={96}
-                    height={96}
-                    className={`w-full h-full rounded-full object-cover absolute inset-0 z-20 ${
-                      imageLoaded ? "opacity-100" : "opacity-0"
-                    }`}
-                    onLoad={() => {
-                      setImageLoaded(true);
-                    }}
-                    onError={() => {
-                      setImageLoaded(false);
-                    }}
-                  />
+                  {currentImageSrc && (
+                    <Image
+                      src={currentImageSrc}
+                      alt={name}
+                      width={96}
+                      height={96}
+                      className={`w-full h-full rounded-full object-cover absolute inset-0 z-20 ${
+                        imageLoaded ? "opacity-100" : "opacity-0"
+                      }`}
+                      onLoad={() => {
+                        setImageLoaded(true);
+                      }}
+                      onError={() => {
+                        setImageLoaded(false);
+                      }}
+                    />
+                  )}
                 </div>
 
                 {/* Silly name with effects */}
@@ -311,7 +349,7 @@ export default function HomePage() {
 
                 {/* Random silly message */}
                 <p className="text-sm font-medium text-purple-700 bg-white/70 rounded-full px-3 py-1 animate-pulse">
-                  {getRandomMessage(name)}
+                  {currentMessage}
                 </p>
               </div>
 
@@ -500,11 +538,20 @@ END:VCALENDAR`;
             </div>
           </div>
 
-          <Alert className="text-left mb-4">
-            <Heart className="h-4 w-4" />
-            <AlertDescription className="text-sm whitespace-pre-line">
-              <div className="inline">
-                {renderTextWithNames(t.familyFriendly)}
+          <Alert className="text-left mb-4 bg-gradient-to-r from-pink-50 to-purple-50 border-pink-200">
+            <Heart className="h-4 w-4 text-pink-500 flex-shrink-0" />
+            <AlertDescription className="text-sm leading-relaxed pl-2">
+              <div className="space-y-3">
+                {t.familyFriendly.split("\n\n").map((paragraph, index) => (
+                  <p
+                    key={index}
+                    className={`${
+                      index === 0 ? "font-medium text-pink-700" : ""
+                    }`}
+                  >
+                    {renderTextWithNames(paragraph)}
+                  </p>
+                ))}
               </div>
             </AlertDescription>
           </Alert>
@@ -627,18 +674,19 @@ END:VCALENDAR`;
                 <MessageCircle className="h-4 w-4" />
                 <Label htmlFor="message">{t.messageLabel}</Label>
               </div>
+              <div className="text-sm text-muted-foreground mb-2 p-3 bg-muted/30 rounded-md border-l-4 border-muted-foreground/20">
+                {formData.isAttending
+                  ? t.messagePlaceholderYes
+                  : t.messagePlaceholderNo}
+              </div>
               <Textarea
                 id="message"
                 value={formData.message}
                 onChange={(e) => handleInputChange("message", e.target.value)}
                 maxLength={500}
                 rows={3}
-                placeholder={
-                  formData.isAttending
-                    ? t.messagePlaceholderYes
-                    : t.messagePlaceholderNo
-                }
-                className="resize-none placeholder:text-sm"
+                placeholder={t.messagePlaceholder}
+                className="resize-none"
               />
               <div className="text-right text-sm text-muted-foreground">
                 {formData.message?.length ?? 0}/500 {t.charactersText}
@@ -672,10 +720,6 @@ END:VCALENDAR`;
 
         <div className="px-6 pb-6">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center text-sm text-muted-foreground">
-            <div className="flex flex-col sm:flex-row items-center gap-1">
-              <UserCheck className="h-4 w-4 sm:h-3 sm:w-3" />
-              <span>{t.maxGuests}</span>
-            </div>
             <div className="flex flex-col sm:flex-row items-center gap-1">
               <UtensilsCrossed className="h-4 w-4 sm:h-3 sm:w-3" />
               <span>{t.goodFood}</span>
