@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 interface RSVPResponse {
   firstName: string;
   lastName: string;
+  email?: string;
   isAttending: boolean;
   guestCount: number;
   message?: string;

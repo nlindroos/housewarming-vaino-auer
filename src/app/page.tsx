@@ -34,17 +34,18 @@ const translations = {
     address: "Väinö Auers gata 15 B 21, 00560 Helsingfors",
     date: "Lördag 8 november kl 15:00 framåt",
     familyFriendly:
-      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nStanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter tills sent på kvällen.\n\nVi hoppas vi ses ❤\n\nHälsningar,\nMimma & Niklas",
+      "Välkommen!\n\nKom och fira vårt nya hem tillsammans med oss. Vi bjuder på snacks och dryck, men törstiga gäster uppmuntras att ta med egna drycker.\n\nStanna länge eller kom bara förbi enligt dina egna planer. Festen börjar familjevänligt redan kl 15 och fortsätter tills sent på kvällen.\n\nVi hoppas att vi ses ❤\n\nHälsningar,\nMimma & Niklas",
     firstName: "Förnamn",
     lastName: "Efternamn",
+    email: "E-post (om du vill ha en bekräftelse)",
     attending: "Kommer du?",
     yes: "JA!",
     no: "Tyvärr, kan inte komma",
-    guestCount: "Antal gäster (inklusive dig själv)",
+    guestCount: "Antal gäster (inklusive du själv)",
     messageLabel: "Meddelande (valfritt)",
     messagePlaceholder: "Ditt meddelande",
     messagePlaceholderYes:
-      "Ser fram emot att träffa er! Berätta t.ex. vilka ni är som kommer, om ni är många och om ni har speciella kostbehov eller allergier, vi försöker ta hänsyn till dessa.",
+      "Ser fram emot att träffa er! Berätta under t.ex. vilka ni är som kommer, om ni är många och om ni har speciella kostbehov eller allergier, vi försöker ta hänsyn till dessa.",
     messagePlaceholderNo:
       "Vi kommer att sakna er! Om du vill meddela oss något, skriv bara här.",
     rsvpDeadline: "Vänligen svara senast 1.11.",
@@ -52,6 +53,15 @@ const translations = {
     submitting: "Skickar...",
     successTitle: "Tack för ditt svar!",
     successMessage: "Vi ser fram emot att träffa dig på festen!",
+    successEmailSent: "En bekräftelse har skickats till din e-post.",
+    successNoEmail: "Ditt RSVP har registrerats.",
+    successAttending: "Vi ser fram emot att träffa dig! 🏠✨",
+    successNotAttending: "Tack för att du lät oss veta! 💙",
+    firstNamePlaceholder: "Ditt förnamn",
+    lastNamePlaceholder: "Ditt efternamn",
+    emailPlaceholder: "din@email.com",
+    messageHintAttending: "Tips för er som kommer",
+    messageHintNotAttending: "Meddelande till oss",
     errorMessage: "Något gick fel. Försök igen.",
     errorContact: "Om problemet återkommer, kontakta Mimma eller Niklas.",
     maxGuests: "Max 100 gäster",
@@ -71,6 +81,7 @@ const translations = {
       "Tervetuloa!\n\nTule juhlimaan meidän kanssamme uutta kotiamme. Tarjolla on syötävää ja juotavaa, mutta janoisempien kannattaa ottaa myös omia juomia mukaan.\n\nTule viihtymään pidemmäksi aikaa tai tule vain piipahtamaan omien aikataulujesi puitteissa. Juhlat alkavat lapsiystävällisesti jo klo 15 ja jatkuvat myöhäisiltaan asti.\n\nToivottavasti nähdään ❤\n\nTerkuin,\nMimma & Niklas",
     firstName: "Etunimi",
     lastName: "Sukunimi",
+    email: "Sähköposti (jos haluat vahvistusviestin)",
     attending: "Tuletko?",
     yes: "KYLLÄ!",
     no: "Valitettavasti en pääse",
@@ -78,14 +89,23 @@ const translations = {
     messageLabel: "Viesti (valinnainen)",
     messagePlaceholder: "Viestisi",
     messagePlaceholderYes:
-      "Odotamme innolla tapaamista! Kerro esim. keitä teitä tulee, jos on tulossa monta ja onko teillä esim. erityisruokavalioita tai allergioita, pyrimme ottamaan nämä huomioon.",
+      "Odotamme innolla tapaamista! Kerro alla esim. keitä teitä tulee, jos on tulossa monta ja onko teillä esim. erityisruokavalioita tai allergioita, pyrimme ottamaan nämä huomioon.",
     messagePlaceholderNo:
-      "Tulemme kaipaamaan teitä! Jos haluat kertoa meille jotain, kirjoita se tähän.",
+      "Tulemme kaipaamaan teitä! Jos haluat kertoa meille jotain, kirjoita se alle.",
     rsvpDeadline: "Vastaa viimeistään 1.11.",
     submit: "Lähetä RSVP",
     submitting: "Lähetetään...",
     successTitle: "Kiitos vastauksestasi!",
     successMessage: "Odotamme innolla tapaamista juhlissa!",
+    successEmailSent: "Vahvistus on lähetetty sähköpostiisi.",
+    successNoEmail: "RSVP:si on kirjattu.",
+    successAttending: "Odotamme innolla tapaamista! 🏠✨",
+    successNotAttending: "Kiitos, että ilmoitit! 💙",
+    firstNamePlaceholder: "Etunimesi",
+    lastNamePlaceholder: "Sukunimesi",
+    emailPlaceholder: "sinun@email.com",
+    messageHintAttending: "Vinkkejä tuleville vieraille",
+    messageHintNotAttending: "Viesti meille",
     errorMessage: "Jokin meni pieleen. Yritä uudelleen.",
     errorContact: "Jos ongelmia ilmenee, ota yhteyttä Mimmaan tai Niklakseen.",
     goodFood: "Snackseja & juomaa",
@@ -97,13 +117,14 @@ const translations = {
   },
   en: {
     title: "Housewarming Party!",
-    subtitle: "...and you're invited",
+    subtitle: "...and you're invited.",
     address: "Väinö Auers gata 15 B 21, 00560 Helsinki",
     date: "Saturday November 8 at 15:00 onwards",
     familyFriendly:
       "Welcome!\n\nCome celebrate our new home with us. We'll provide food and drinks, but thirsty guests are encouraged to bring their own drinks too.\n\nCome and stay for a long time or just drop by according to your own schedule. The party starts family-friendly at 3 PM and continues late into the evening.\n\nHope to see you ❤\n\nBest regards,\nMimma & Niklas",
     firstName: "First Name",
     lastName: "Last Name",
+    email: "Email (if you want a confirmation email)",
     attending: "Are you coming?",
     yes: "YES!",
     no: "Sorry, can't make it",
@@ -113,12 +134,21 @@ const translations = {
     messagePlaceholderYes:
       "Looking forward to seeing you! Please let us know e.g. who is coming, if there are many of you and if you have any special dietary requirements or allergies, we'll try to take these into account.",
     messagePlaceholderNo:
-      "We'll miss you! If you have anything you want us to know, write it here.",
+      "We'll miss you! If you have anything you want us to know, write it below.",
     rsvpDeadline: "Please RSVP by 1.11.",
     submit: "Send RSVP",
     submitting: "Sending...",
     successTitle: "Thanks for your response!",
     successMessage: "We look forward to seeing you at the party!",
+    successEmailSent: "A confirmation has been sent to your email.",
+    successNoEmail: "Your RSVP has been recorded.",
+    successAttending: "We look forward to seeing you! 🏠✨",
+    successNotAttending: "Thanks for letting us know! 💙",
+    firstNamePlaceholder: "Your first name",
+    lastNamePlaceholder: "Your last name",
+    emailPlaceholder: "your@email.com",
+    messageHintAttending: "Tips for attendees",
+    messageHintNotAttending: "Message to us",
     errorMessage: "Something went wrong. Please try again.",
     errorContact: "In case of any problems, just message Mimma or Niklas.",
     goodFood: "Snacks & drinks",
@@ -133,6 +163,7 @@ const translations = {
 interface RSVPForm {
   firstName: string;
   lastName: string;
+  email?: string;
   isAttending: boolean;
   guestCount: number;
   message?: string;
@@ -143,6 +174,7 @@ export default function HomePage() {
   const [formData, setFormData] = useState<RSVPForm>({
     firstName: "",
     lastName: "",
+    email: "",
     isAttending: true,
     guestCount: 1,
     message: "",
@@ -162,7 +194,10 @@ export default function HomePage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          language: language,
+        }),
       });
 
       const result = await response.json();
@@ -420,6 +455,8 @@ export default function HomePage() {
   };
 
   if (isSubmitted) {
+    const hasEmail = formData.email && formData.email.trim().length > 0;
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 flex items-center justify-center p-4">
         <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center animate-bounce-twice">
@@ -427,13 +464,60 @@ export default function HomePage() {
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
             {t.successTitle}
           </h1>
-          <p className="text-gray-600 mb-6">{t.successMessage}</p>
-          <button
-            onClick={() => setIsSubmitted(false)}
-            className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:scale-105 transition-transform"
-          >
-            RSVP Again
-          </button>
+          <p className="text-gray-600 mb-4">{t.successMessage}</p>
+
+          {hasEmail ? (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center justify-center gap-2 text-green-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-mail-check"
+                >
+                  <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8" />
+                  <path d="m22 7-10 5L2 7" />
+                  <path d="m16 19 2 2 4-4" />
+                </svg>
+                <span className="font-medium">{t.successEmailSent}</span>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <div className="flex items-center justify-center gap-2 text-blue-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-check-circle"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <path d="m9 11 3 3L22 4" />
+                </svg>
+                <span className="font-medium">{t.successNoEmail}</span>
+              </div>
+            </div>
+          )}
+
+          <div className="text-sm text-gray-500">
+            {formData.isAttending ? (
+              <span>{t.successAttending}</span>
+            ) : (
+              <span>{t.successNotAttending}</span>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -442,7 +526,6 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-600 flex items-center justify-center p-4">
       <Card className="max-w-lg w-full min-w-[340px] shadow-2xl border-0">
-        {/* Language Switcher */}
         <div className="flex justify-center gap-2 p-4 pb-0">
           <Button
             variant={language === "sv" ? "default" : "outline"}
@@ -507,47 +590,85 @@ export default function HomePage() {
               onClick={() => {
                 // Create calendar event
                 const startDate = new Date(2024, 10, 8, 15, 0); // November 8, 2024, 15:00
-                const endDate = new Date(2024, 10, 9, 0, 0); // November 9, 2024, 00:00 (24:00)
+                const endDate = new Date(2024, 10, 8, 23, 59); // November 8, 2024, 23:59
+
+                // Format dates for different calendar systems
+                const formatDateForICS = (date: Date) => {
+                  return (
+                    date.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z"
+                  );
+                };
 
                 const eventDetails = {
                   title: t.calendarTitle,
                   location: t.address,
-                  details: t.calendarDescription,
-                  start:
-                    startDate.toISOString().replace(/[-:]/g, "").split(".")[0] +
-                    "Z",
-                  end:
-                    endDate.toISOString().replace(/[-:]/g, "").split(".")[0] +
-                    "Z",
+                  details: t.calendarDescription.replace(/\n/g, "\\n"),
+                  start: formatDateForICS(startDate),
+                  end: formatDateForICS(endDate),
                 };
 
-                // Create universal .ics file that works with any calendar app
-                const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Housewarming Party//EN
-BEGIN:VEVENT
-UID:housewarming-party-${Date.now()}@${window.location.hostname}
-DTSTART:${eventDetails.start}
-DTEND:${eventDetails.end}
-SUMMARY:${eventDetails.title}
-DESCRIPTION:${eventDetails.details}
-LOCATION:${eventDetails.location}
-URL:${window.location.href}
-STATUS:CONFIRMED
-END:VEVENT
-END:VCALENDAR`;
+                // Detect device type for optimal calendar integration
+                const isAndroid = /Android/i.test(navigator.userAgent);
 
-                // Create and download .ics file
-                const blob = new Blob([icsContent], {
-                  type: "text/calendar;charset=utf-8",
-                });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "housewarming-party.ics";
-                link.click();
+                if (isAndroid) {
+                  // For Android, try Google Calendar URL first (works better than .ics)
+                  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventDetails.title)}&dates=${eventDetails.start}/${eventDetails.end}&details=${encodeURIComponent(t.calendarDescription)}&location=${encodeURIComponent(eventDetails.location)}`;
 
-                // Clean up the blob URL
-                URL.revokeObjectURL(link.href);
+                  // Try to open Google Calendar, fallback to ICS download
+                  const calendarWindow = window.open(
+                    googleCalendarUrl,
+                    "_blank",
+                  );
+
+                  // If popup was blocked or failed, download ICS file
+                  setTimeout(() => {
+                    if (!calendarWindow || calendarWindow.closed) {
+                      downloadICSFile();
+                    }
+                  }, 1000);
+                } else {
+                  // For iOS, desktop, and other devices, use .ics file (works better with native apps)
+                  downloadICSFile();
+                }
+
+                function downloadICSFile() {
+                  // Create properly formatted .ics file
+                  const icsContent = [
+                    "BEGIN:VCALENDAR",
+                    "VERSION:2.0",
+                    "PRODID:-//Housewarming Party//EN",
+                    "CALSCALE:GREGORIAN",
+                    "METHOD:PUBLISH",
+                    "BEGIN:VEVENT",
+                    `UID:housewarming-party-${Date.now()}@housewarmingparty.com`,
+                    `DTSTART:${eventDetails.start}`,
+                    `DTEND:${eventDetails.end}`,
+                    `SUMMARY:${eventDetails.title}`,
+                    `DESCRIPTION:${eventDetails.details}`,
+                    `LOCATION:${eventDetails.location}`,
+                    `URL:${window.location.href}`,
+                    "STATUS:CONFIRMED",
+                    "TRANSP:OPAQUE",
+                    `CREATED:${formatDateForICS(new Date())}`,
+                    `LAST-MODIFIED:${formatDateForICS(new Date())}`,
+                    "END:VEVENT",
+                    "END:VCALENDAR",
+                  ].join("\r\n");
+
+                  // Create and download .ics file with proper MIME type
+                  const blob = new Blob([icsContent], {
+                    type: "text/calendar;charset=utf-8",
+                  });
+                  const link = document.createElement("a");
+                  link.href = URL.createObjectURL(blob);
+                  link.download = "housewarming-party.ics";
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+
+                  // Clean up the blob URL
+                  URL.revokeObjectURL(link.href);
+                }
               }}
             >
               <Calendar className="h-4 w-4" />
@@ -590,7 +711,7 @@ END:VCALENDAR`;
                   onChange={(e) =>
                     handleInputChange("firstName", e.target.value)
                   }
-                  placeholder="Your first name"
+                  placeholder={t.firstNamePlaceholder}
                   className="placeholder:text-sm"
                 />
               </div>
@@ -605,10 +726,22 @@ END:VCALENDAR`;
                   onChange={(e) =>
                     handleInputChange("lastName", e.target.value)
                   }
-                  placeholder="Your last name"
+                  placeholder={t.lastNamePlaceholder}
                   className="placeholder:text-sm"
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">{t.email}</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                placeholder={t.emailPlaceholder}
+                className="placeholder:text-sm"
+              />
             </div>
 
             <div className="space-y-3">
@@ -693,10 +826,17 @@ END:VCALENDAR`;
                 <MessageCircle className="h-4 w-4" />
                 <Label htmlFor="message">{t.messageLabel}</Label>
               </div>
-              <div className="text-sm text-muted-foreground mb-2 p-3 bg-muted/30 rounded-md border-l-4 border-muted-foreground/20">
-                {formData.isAttending
-                  ? t.messagePlaceholderYes
-                  : t.messagePlaceholderNo}
+              <div className="relative mb-3 p-4 rounded-xl border-2 border-dashed border-pink-200 bg-gradient-to-r from-pink-50/80 to-purple-50/80 backdrop-blur-sm">
+                <div className="absolute -top-2 left-4 bg-white px-2 py-0.5 rounded-full text-xs font-medium text-pink-600 border border-pink-200">
+                  {formData.isAttending
+                    ? t.messageHintAttending
+                    : t.messageHintNotAttending}
+                </div>
+                <div className="text-sm text-gray-700 leading-relaxed mt-2">
+                  {formData.isAttending
+                    ? t.messagePlaceholderYes
+                    : t.messagePlaceholderNo}
+                </div>
               </div>
               <Textarea
                 id="message"
