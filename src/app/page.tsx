@@ -241,24 +241,7 @@ export default function HomePage() {
     const [currentMessage, setCurrentMessage] = useState("");
     const nameRef = useRef<HTMLSpanElement>(null);
 
-    // Preload images for instant display (after initial page load)
-    useEffect(() => {
-      // Delay preloading to not interfere with LCP
-      const imagesToPreload = [
-        "/mimma1.jpeg",
-        "/mimma2.jpeg",
-        "/niklas1.jpg",
-        "/niklas2.jpg",
-      ];
-
-      imagesToPreload.forEach((src) => {
-        const link = document.createElement("link");
-        link.rel = "preload";
-        link.as = "image";
-        link.href = src;
-        document.head.appendChild(link);
-      });
-    }, []);
+    // Note: Images are preloaded automatically by Next.js Image with priority prop
 
     const handleMouseEnter = (e: React.MouseEvent) => {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -268,16 +251,18 @@ export default function HomePage() {
       });
 
       // Set random image for Mimma and Niklas
+      let imageSrc = "";
       if (name === "Mimma") {
         const randomImage = Math.random() < 0.5 ? "mimma1.jpeg" : "mimma2.jpeg";
-        setCurrentImageSrc(`/${randomImage}`);
+        imageSrc = `/${randomImage}`;
       } else if (name === "Niklas") {
         const randomImage = Math.random() < 0.5 ? "niklas1.jpg" : "niklas2.jpg";
-        setCurrentImageSrc(`/${randomImage}`);
+        imageSrc = `/${randomImage}`;
       } else {
-        setCurrentImageSrc(`/${name.toLowerCase()}.jpg`);
+        imageSrc = `/${name.toLowerCase()}.jpg`;
       }
 
+      setCurrentImageSrc(imageSrc);
       setImageLoaded(false); // Reset image loaded state
 
       // Set the message once when popover appears
@@ -386,6 +371,7 @@ export default function HomePage() {
                       alt={name}
                       width={96}
                       height={96}
+                      priority
                       className={`w-full h-full rounded-full object-cover absolute inset-0 z-20 ${
                         imageLoaded ? "opacity-100" : "opacity-0"
                       }`}
