@@ -72,7 +72,7 @@ const emailTemplates = {
                 : ""
             }
 
-            <p style="color: #374151; line-height: 1.6;">Vi hoppas att vi ses! ❤️</p>
+            <p style="color: #374151; line-height: 1.6;">Vi ses snart! ❤️</p>
 
             <p style="color: #374151; margin-top: 30px;">Hälsningar,<br><strong>Mimma & Niklas</strong></p>
           </div>
@@ -144,7 +144,7 @@ const emailTemplates = {
                 : ""
             }
 
-            <p style="color: #374151; line-height: 1.6;">Toivottavasti nähdään! ❤️</p>
+            <p style="color: #374151; line-height: 1.6;">Nähdään pian! ❤️</p>
 
             <p style="color: #374151; margin-top: 30px;">Terkuin,<br><strong>Mimma & Niklas</strong></p>
           </div>
@@ -216,7 +216,7 @@ const emailTemplates = {
                 : ""
             }
 
-            <p style="color: #374151; line-height: 1.6;">Hope to see you! ❤️</p>
+            <p style="color: #374151; line-height: 1.6;">See you soon! ❤️</p>
 
             <p style="color: #374151; margin-top: 30px;">Best regards,<br><strong>Mimma & Niklas</strong></p>
           </div>
