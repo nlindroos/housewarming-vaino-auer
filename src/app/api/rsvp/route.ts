@@ -380,33 +380,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check for duplicate submissions (same email or name combination)
-    let duplicateCheck;
-    if (email && email.length > 0) {
-      duplicateCheck = await sql`
-        SELECT COUNT(*) as count
-        FROM rsvp_responses
-        WHERE LOWER(email) = LOWER(${email}) 
-        OR (LOWER(first_name) = LOWER(${firstName}) AND LOWER(last_name) = LOWER(${lastName}))
-      `;
-    } else {
-      duplicateCheck = await sql`
-        SELECT COUNT(*) as count
-        FROM rsvp_responses
-        WHERE LOWER(first_name) = LOWER(${firstName}) AND LOWER(last_name) = LOWER(${lastName})
-      `;
-    }
-
-    if (Number(duplicateCheck[0].count) > 0) {
-      return NextResponse.json(
-        {
-          error:
-            "An RSVP with this name or email has already been submitted. Contact us if you need to make changes.",
-        },
-        { status: 409 },
-      );
-    }
-
     // Check if we're at capacity (100 guests max)
     const capacityResult = await sql`
       SELECT COALESCE(SUM(guest_count), 0) as total_guests
