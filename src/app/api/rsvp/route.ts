@@ -84,11 +84,11 @@ const emailTemplates = {
       html: (name: string, guestCount: number, message?: string) => `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #dc2626 100%); padding: 30px; text-align: center; color: white; border-radius: 10px 10px 0 0;">
-            <h1 style="margin: 0; font-size: 28px;">Vi kommer sakna dig! 💔</h1>
+            <h1 style="margin: 0; font-size: 28px;">Vi kommer att sakna dig! 💔</h1>
           </div>
           <div style="padding: 30px; background: #f8fafc; border-radius: 0 0 10px 10px;">
             <h2 style="color: #1f2937;">Hej ${name}!</h2>
-            <p style="color: #374151; line-height: 1.6;">Tack för att du lät oss veta att du inte kan komma till vår tupaantuliaiset. Vi kommer verkligen sakna dig!</p>
+            <p style="color: #374151; line-height: 1.6;">Tack för att du lät oss veta att du inte kan komma. Vi kommer att sakna dig!</p>
 
             ${
               message
@@ -119,7 +119,7 @@ const emailTemplates = {
           </div>
           <div style="padding: 30px; background: #f8fafc; border-radius: 0 0 10px 10px;">
             <h2 style="color: #1f2937;">Hei ${name}!</h2>
-            <p style="color: #374151; line-height: 1.6;">Kiitos RSVP:stäsi! Odotamme innolla tapaamista tupaantuliaisissamme.</p>
+            <p style="color: #374151; line-height: 1.6;">Kiitos RSVP:stäsi! Odotamme innolla tapaamista tupareissa.</p>
 
             <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ec4899;">
               <h3 style="margin-top: 0; color: #1f2937;">📅 Tiedot</h3>
@@ -160,7 +160,7 @@ const emailTemplates = {
           </div>
           <div style="padding: 30px; background: #f8fafc; border-radius: 0 0 10px 10px;">
             <h2 style="color: #1f2937;">Hei ${name}!</h2>
-            <p style="color: #374151; line-height: 1.6;">Kiitos, että ilmoitit ettet pääse tupaantuliaisiimme. Tulemme todella kaipaamaan teitä!</p>
+            <p style="color: #374151; line-height: 1.6;">Kiitos, että ilmoitit ettet pääse tupareihin. Tulemme kaipaamaan sinua!</p>
 
             ${
               message
@@ -272,7 +272,6 @@ async function sendConfirmationEmail({
 }) {
   try {
     console.log(`Attempting to send email to: ${email}`);
-    console.log(`RESEND_API_KEY present: ${!!process.env.RESEND_API_KEY}`);
 
     const lang = language as keyof typeof emailTemplates;
     const template = emailTemplates[lang] || emailTemplates.en;
@@ -288,15 +287,26 @@ async function sendConfirmationEmail({
 
     console.log(`Email data:`, { ...emailData, html: "[HTML_CONTENT]" });
 
+    console.log(`📡 About to call resend.emails.send...`);
+    console.log(`🔑 Resend client initialized:`, !!resend);
+    console.log(`🌐 Environment:`, process.env.NODE_ENV);
+
     const { data, error } = await resend.emails.send(emailData);
+    console.log(`📬 Raw resend result:`, { data, error });
 
     if (error) {
       console.error(`❌ Failed to send confirmation email to ${email}:`, error);
+      console.error(`❌ Error type:`, typeof error);
+      console.error(`❌ Error details:`, JSON.stringify(error, null, 2));
     } else {
       console.log(`✅ Confirmation email sent successfully to ${email}`, data);
+      console.log(`✅ Success data:`, JSON.stringify(data, null, 2));
     }
   } catch (error) {
-    console.error(`❌ Failed to send confirmation email to ${email}:`, error);
+    console.error(
+      `❌ CATCH Failed to send confirmation email to ${email}:`,
+      error,
+    );
     // Don't throw error - email failure shouldn't break RSVP submission
   }
 }
@@ -407,16 +417,23 @@ export async function POST(request: NextRequest) {
       RETURNING id
     `;
 
-    // Send confirmation email only if email is provided (don't await to avoid blocking response)
+    // Send confirmation email only if email is provided
     if (email && email.length > 0) {
-      sendConfirmationEmail({
-        email,
-        firstName,
-        isAttending: body.isAttending,
-        guestCount: body.guestCount,
-        message: body.message,
-        language: body.language || "en",
-      });
+      console.log(`🚀 Initiating email send for: ${email}`);
+      try {
+        await sendConfirmationEmail({
+          email,
+          firstName,
+          isAttending: body.isAttending,
+          guestCount: body.guestCount,
+          message: body.message,
+          language: body.language || "en",
+        });
+        console.log(`📧 Email sending completed for: ${email}`);
+      } catch (emailError) {
+        console.error(`📧 Email sending failed for ${email}:`, emailError);
+        // Continue with response even if email fails
+      }
     }
 
     return NextResponse.json({
